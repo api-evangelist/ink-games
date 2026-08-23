@@ -1,0 +1,57 @@
+generated: '2026-08-23'
+method: probed
+source: 'direct HTTP probe of every INK Games host, 2026-08-23'
+description: >-
+  Probe of the standard /.well-known/ discovery surface across every INK Games host.
+  NOTHING WAS FOUND. www.inkgames.com is a Next.js single-page application whose
+  catch-all route answers HTTP 200 with a byte-identical 191,316-byte HTML shell for
+  EVERY path probed — verified by SHA: all nine probes returned the same digest
+  (e4f5e7cadd23...). Those 200s are soft-404s, not documents, and are recorded as
+  misses. No WellKnown or SecurityTxt pointer is emitted for this provider.
+
+hosts:
+  - host: www.inkgames.com
+    note: >-
+      Next.js SPA catch-all. Every path returns HTTP 200 with the same HTML shell
+      (sha1 prefix e4f5e7cadd23, 191316 bytes). Treated as a miss on every path.
+    documents:
+      - { path: /.well-known/security.txt, status: 200, file: null, result: soft-404, content_type: text/html }
+      - { path: /.well-known/openid-configuration, status: 200, file: null, result: soft-404, content_type: text/html }
+      - { path: /.well-known/oauth-authorization-server, status: 200, file: null, result: soft-404, content_type: text/html }
+      - { path: /.well-known/api-catalog, status: 200, file: null, result: soft-404, content_type: text/html }
+      - { path: /.well-known/ai-plugin.json, status: 200, file: null, result: soft-404, content_type: text/html }
+      - { path: /.well-known/agent-card.json, status: 200, file: null, result: soft-404, content_type: text/html }
+      - { path: /.well-known/agent.json, status: 200, file: null, result: soft-404, content_type: text/html }
+
+  - host: webadm.inkgames.com
+    note: Strapi CMS. Returns a genuine JSON 404 envelope, so these are real misses.
+    documents:
+      - { path: /.well-known/security.txt, status: 404, file: null, result: absent, content_type: application/json }
+      - { path: /.well-known/agent-card.json, status: 404, file: null, result: absent, content_type: application/json }
+
+  - host: ip-api.inkgames.com
+    note: >-
+      AWS API Gateway. Answers 403 {"message":"Missing Authentication Token"} on every
+      unmatched route, which is API Gateway's standard no-such-route response — an
+      absence, not an auth wall.
+    documents:
+      - { path: /.well-known/security.txt, status: 403, file: null, result: absent, content_type: application/json }
+      - { path: /.well-known/openid-configuration, status: 403, file: null, result: absent, content_type: application/json }
+      - { path: /.well-known/oauth-authorization-server, status: 403, file: null, result: absent, content_type: application/json }
+      - { path: /.well-known/api-catalog, status: 403, file: null, result: absent, content_type: application/json }
+      - { path: /.well-known/ai-plugin.json, status: 403, file: null, result: absent, content_type: application/json }
+      - { path: /.well-known/agent-card.json, status: 403, file: null, result: absent, content_type: application/json }
+      - { path: /.well-known/agent.json, status: 403, file: null, result: absent, content_type: application/json }
+
+  - host: inkpayapp.com
+    note: >-
+      Vite SPA catch-all — every path returns HTTP 200 with the same 2,297-byte HTML
+      shell. Soft-404, recorded as a miss.
+    documents:
+      - { path: /.well-known/security.txt, status: 200, file: null, result: soft-404, content_type: text/html }
+
+summary:
+  hosts_probed: 4
+  paths_probed: 17
+  real_documents_found: 0
+  pointer_emitted: false

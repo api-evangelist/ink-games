@@ -1,0 +1,151 @@
+generated: '2026-08-23'
+method: derived
+source: graphql/ink-games-cms-schema.graphql
+description: >-
+  Entity-relationship graph derived from the GraphQL SDL retrieved by anonymous
+  introspection from https://webadm.inkgames.com/graphql. Every entity and edge below
+  is read directly out of that schema — nothing is inferred from prose. The model is
+  a Strapi content model for INK Games' marketing website, not a business-domain
+  model of the gaming platform.
+
+conventions:
+  identifier: documentId (String) — Strapi v5 document identifier on every content entity
+  timestamps: [createdAt, updatedAt, publishedAt]
+  localization: locale (String) + localizations[] on every localized content type
+  dynamic_zones: >-
+    Page bodies are Strapi dynamic zones typed as custom scalars on read
+    (HomeBlocksDynamicZone, GamesBlocksDynamicZone, StudioBlocksDynamicZone,
+    InkPayBlocksDynamicZone, SupportBlocksDynamicZone), so the block union is not
+    expressible in the SDL type graph — the 40 Component* object types are the
+    members.
+
+entities:
+  - name: Home
+    kind: singleton
+    field_count: 7
+    relationships:
+      - { to: HomeBlocksDynamicZone, type: has_many, via: Blocks }
+      - { to: ComponentSeoMetadata, type: has_one, via: Metadata }
+
+  - name: Games
+    kind: singleton
+    field_count: 12
+    relationships:
+      - { to: GamesBlocksDynamicZone, type: has_many, via: Blocks }
+      - { to: UploadFile, type: has_one, via: BackgroundMedia }
+      - { to: UploadFile, type: has_one, via: ModalVideo }
+      - { to: ComponentNavigationLink, type: has_many, via: DownloadLinks }
+      - { to: ComponentSeoMetadata, type: has_one, via: Metadata }
+
+  - name: Studio
+    kind: singleton
+    field_count: 8
+    relationships:
+      - { to: StudioBlocksDynamicZone, type: has_many, via: Blocks }
+      - { to: UploadFile, type: has_one, via: Media }
+      - { to: ComponentSeoMetadata, type: has_one, via: Metadata }
+
+  - name: InkPay
+    kind: singleton
+    field_count: 9
+    relationships:
+      - { to: InkPayBlocksDynamicZone, type: has_many, via: Blocks }
+      - { to: ComponentNavigationLink, type: has_one, via: CTA }
+      - { to: ComponentSeoMetadata, type: has_one, via: Metadata }
+
+  - name: Support
+    kind: singleton
+    field_count: 7
+    relationships:
+      - { to: SupportBlocksDynamicZone, type: has_many, via: Blocks }
+      - { to: ComponentSeoMetadata, type: has_one, via: Metadata }
+
+  - name: Global
+    kind: singleton
+    note: Site chrome — header/footer navigation, address, cookie banner.
+    field_count: 15
+    relationships:
+      - { to: ComponentNavigationLocalLink, type: has_many, via: HeaderLinks }
+      - { to: ComponentNavigationLink, type: has_one, via: LoginLink }
+      - { to: ComponentNavigationLink, type: has_one, via: SignUpLink }
+      - { to: ComponentNavigationLink, type: has_one, via: InkIDLink }
+      - { to: ComponentNavigationLinkList, type: has_one, via: FooterInkLinks }
+      - { to: ComponentNavigationLinkList, type: has_one, via: FooterSocialLinks }
+      - { to: ComponentNavigationLinkList, type: has_one, via: FooterContactLinks }
+      - { to: ComponentNavigationLinkList, type: has_one, via: FooterLegalLinks }
+      - { to: ComponentDataTitleDescription, type: has_one, via: Address }
+      - { to: ComponentCookiesCookieBanner, type: has_one, via: CookieBanner }
+      - { to: ComponentSeoMetadata, type: has_one, via: Metadata }
+
+  - name: NotFound
+    kind: singleton
+    field_count: 7
+    relationships:
+      - { to: UploadFile, type: has_one, via: Image }
+
+  - name: StandardPage
+    kind: collection
+    field_count: 9
+    relationships:
+      - { to: ComponentRichTextFullWidth, type: has_many, via: Content }
+      - { to: ComponentSeoMetadata, type: has_one, via: Metadata }
+
+  - name: UploadFile
+    kind: collection
+    note: Strapi media library entity — name, url, mime, size, width/height, formats (JSON).
+    field_count: 19
+    relationships:
+      - { to: GenericMorph, type: has_many, via: related }
+
+  - name: UsersPermissionsUser
+    kind: collection
+    field_count: 10
+    relationships:
+      - { to: UsersPermissionsRole, type: has_one, via: role }
+
+  - name: UsersPermissionsRole
+    kind: collection
+    field_count: 11
+    relationships:
+      - { to: UsersPermissionsPermission, type: has_many, via: permissions }
+      - { to: UsersPermissionsUser, type: has_many, via: users }
+
+  - name: I18NLocale
+    kind: collection
+    field_count: 6
+    relationships: []
+
+  - name: ReviewWorkflowsWorkflow
+    kind: collection
+    note: Strapi editorial review workflow.
+    field_count: 9
+    relationships:
+      - { to: ReviewWorkflowsWorkflowStage, type: has_many, via: stages }
+      - { to: ReviewWorkflowsWorkflowStage, type: has_one, via: stageRequiredToPublish }
+
+  - name: ReviewWorkflowsWorkflowStage
+    kind: collection
+    field_count: 7
+    relationships:
+      - { to: ReviewWorkflowsWorkflow, type: has_one, via: workflow }
+
+components:
+  count: 40
+  note: >-
+    40 Component* object types make up the page-block vocabulary — Blocks (Cards,
+    Carousel, FaQs, Leaderboard, Media, NewsList, ScrollAnim, ScrollFloat, ScrollList,
+    StudioTeam, CtaBlock, CtaBlockPay, BenefitList, DepartmentLinks), Data
+    (Card, Benefit, FaqItem, TeamMembers, News, LeaderboardColumn, ...), Navigation
+    (Link, LocalLink, LinkList), RichText (FullWidth, HalfWidth), Seo (Metadata) and
+    Cookies (CookieBanner).
+
+summary:
+  entities: 14
+  relationships: 28
+  component_types: 40
+  id_prefixes_documented: false
+  note: >-
+    No id-prefix scheme is published — Strapi documentId values are opaque. No
+    business/domain entity (player, game session, royalty, payout, referral) appears
+    in this schema; those live behind the unpublished platform API at
+    ip-api.inkgames.com and are not readable.

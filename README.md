@@ -64,5 +64,35 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-INK Games is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+INK Games is an Austin, Texas gaming company building a free-to-earn mobile gaming and
+social platform under the banner "Play. Win. Earn." Its flagship title is **Prize
+Kingdoms**, a mobile kingdom-building game on the Apple App Store and Google Play in
+which players compete and earn real cash prizes. Two platform services sit behind the
+games: **Ink ID**, the account and passkey authentication layer, and **InkPay**, which
+pays players and influencers ongoing royalties tied to the reach of their personal INK
+referral code. The team is drawn from EA, Zynga, SciPlay and Buffalo Studios. Shares
+trade only on private secondary markets.
+
+## API surface
+
+**INK Games operates no public developer program.** There is no developer portal, API
+reference, documentation, SDK, API key programme or pricing for developers. Probed
+2026-08-23: no OpenAPI or Swagger document on any host, no AsyncAPI, no MCP endpoint,
+no A2A agent card, no `llms.txt`, and no `/.well-known/` document of any kind
+(17 paths across 4 hosts, zero hits).
+
+One machine-readable contract does exist. `https://webadm.inkgames.com/graphql` is the
+Strapi headless CMS that supplies the content on www.inkgames.com, and **GraphQL
+introspection is enabled and unauthenticated** — the full schema (165 types, 29 query
+fields, 37 mutations) is saved in [`graphql/`](graphql/). Every data resolver, however,
+returns `Forbidden access` to anonymous callers. The shape of the API is public; the
+data is not. It is the website's content backend, not a product offered for
+third-party integration.
+
+- Website: https://www.inkgames.com/
+- Support: https://www.inkgames.com/support/
+- Player dashboard: https://dashboard.inkgames.com/
+- GitHub: https://github.com/Ink-Games (0 public repositories)
+
+_Not to be confused with **inkle Studios** and its `ink` narrative scripting language,
+with **INK Content** (`inkforall.com`), or with **INK Games Publishing**._

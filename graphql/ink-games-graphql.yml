@@ -1,0 +1,79 @@
+generated: '2026-08-23'
+method: probed
+source: https://webadm.inkgames.com/graphql
+name: INK Games Web Content GraphQL API
+description: >-
+  The GraphQL contract served by INK Games' Strapi headless CMS at
+  webadm.inkgames.com, which backs the content on www.inkgames.com. The schema was
+  retrieved by anonymous GraphQL introspection — introspection is enabled and
+  unauthenticated on this endpoint — and the SDL saved here is a faithful rendering
+  of that introspection response. This is the only machine-readable API contract
+  INK Games publishes anywhere on its own infrastructure.
+
+ownership:
+  verified: true
+  note: >-
+    webadm.inkgames.com is a host on INK Games' own registered domain (inkgames.com),
+    and the schema describes exactly the content model of INK Games' own website —
+    singleton types Home, Games, Studio, Support, InkPay, Global and NotFound match
+    the page set in https://www.inkgames.com/sitemap.xml one-for-one. The
+    www.inkgames.com homepage HTML references https://webadm.inkgames.com directly as
+    its media/content origin. No third-party product name, contact or terms URL
+    appears anywhere in the schema.
+
+endpoint: https://webadm.inkgames.com/graphql
+transport: https
+methods: [POST]
+platform: Strapi v5 (@strapi/plugin-graphql) — x-powered-by header reads "Strapi <strapi.io>"
+
+access:
+  introspection: public
+  introspection_evidence:
+    url: https://webadm.inkgames.com/graphql
+    method: POST
+    http_status: 200
+    note: 'POST {"query":"{__schema{queryType{name}}}"} returned {"data":{"__schema":{"queryType":{"name":"Query"}}}}'
+  resolvers: authenticated
+  resolvers_evidence:
+    note: >-
+      Every data resolver tested anonymously returned
+      {"errors":[{"message":"Forbidden access","extensions":{"code":"FORBIDDEN"}}]} —
+      games, home, standardPages, usersPermissionsUsers, me, and the deleteHome
+      mutation. The Strapi Public role grants no content permissions.
+    tested:
+      - { field: games, result: FORBIDDEN }
+      - { field: home, result: FORBIDDEN }
+      - { field: standardPages, result: FORBIDDEN }
+      - { field: usersPermissionsUsers, result: FORBIDDEN }
+      - { field: me, result: FORBIDDEN }
+      - { field: deleteHome, result: FORBIDDEN }
+  summary: >-
+    The SHAPE of the API is public; the DATA is not. An integrator can read the
+    complete type system without credentials but cannot execute a single query.
+
+surface:
+  types_total: 165
+  query_fields: 29
+  mutation_fields: 37
+  subscription_fields: 0
+  content_types:
+    singletons: [home, games, studio, support, inkPay, global, notFound]
+    collections: [standardPage, uploadFile, i18NLocale, reviewWorkflowsWorkflow, reviewWorkflowsWorkflowStage, usersPermissionsRole, usersPermissionsUser]
+  auth_mutations: [login, register, forgotPassword, resetPassword, changePassword, emailConfirmation]
+  plugins_detected:
+    - users-permissions   # JWT auth, roles, registration
+    - upload              # media library
+    - i18n                # locales
+    - review-workflows    # editorial workflow (Strapi Enterprise feature)
+
+caveat: >-
+  This is the content backend for INK Games' marketing website, not a developer
+  product. INK Games markets no API, publishes no developer portal, documentation or
+  SDK, and this endpoint is not referenced from any public page. It is recorded here
+  because it is a real, first-party, machine-readable contract that a member of the
+  public can read without credentials — not because INK Games offers it for
+  third-party integration.
+
+artifacts:
+  sdl: graphql/ink-games-cms-schema.graphql
+  introspection: graphql/ink-games-cms-introspection.json

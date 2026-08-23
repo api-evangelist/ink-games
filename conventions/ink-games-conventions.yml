@@ -1,0 +1,147 @@
+generated: '2026-08-23'
+method: derived
+source: graphql/ink-games-cms-schema.graphql + live probes 2026-08-23
+description: >-
+  Cross-cutting runtime semantics for the INK Games API surface. INK Games publishes
+  no developer documentation, so nothing here is quoted from a docs page — every
+  entry is either read out of the GraphQL schema retrieved by anonymous introspection
+  or observed on a live response, and anything not observable is recorded as
+  undocumented rather than guessed.
+
+auth_style:
+  summary: Bearer JWT via the Strapi users-permissions plugin (undocumented).
+  see: authentication/ink-games-authentication.yml
+
+pagination:
+  style: strapi-offset-and-connection
+  method: derived
+  source: graphql/ink-games-cms-schema.graphql
+  detail: >-
+    Collection queries accept a `pagination: PaginationArg` input with page,
+    pageSize, start and limit — offset pagination, not cursor. A parallel
+    `<type>_connection` query returns { nodes, pageInfo } where pageInfo is a
+    `Pagination` object of { total, page, pageSize, pageCount }. This is Strapi's
+    connection shape and is NOT Relay cursor pagination: there is no cursor, no
+    endCursor and no hasNextPage.
+  request_params: [pagination.page, pagination.pageSize, pagination.start, pagination.limit]
+  response_fields: [pageInfo.total, pageInfo.page, pageInfo.pageSize, pageInfo.pageCount]
+  default_page_size: undocumented
+  max_page_size: undocumented
+
+filtering:
+  method: derived
+  detail: >-
+    Every collection query accepts `filters: <Type>FiltersInput` with per-field
+    operator objects (eq, ne, contains, in, gt, lt, null, and/or/not), plus
+    `sort: [String]` and `status: PublicationStatus` (DRAFT | PUBLISHED).
+
+field_selection:
+  detail: Native GraphQL selection sets. No sparse-fieldset or `expand` parameter exists.
+
+localization:
+  detail: >-
+    Every content query accepts `locale: I18NLocaleCode`, and every localized entity
+    carries `locale` plus a `localizations` array of sibling documents.
+
+versioning:
+  scheme: none
+  method: probed
+  detail: >-
+    No version segment in the endpoint path (/graphql), no version header observed,
+    no version field in the schema, and no published versioning policy. GraphQL
+    schema evolution is the de facto versioning mechanism.
+
+error_envelope:
+  detail: >-
+    Three incompatible envelopes across three hosts; GraphQL errors are returned with
+    HTTP 200.
+  see: errors/ink-games-problem-types.yml
+
+request_id_tracing:
+  supported: false
+  method: probed
+  detail: >-
+    No X-Request-Id, X-Correlation-Id, X-Amzn-RequestId or traceparent header was
+    returned on any observed response from webadm.inkgames.com. The only per-request
+    identifier present is CloudFront's `x-amz-cf-id`, which is edge-infrastructure
+    telemetry, not an application request id an integrator can quote in a support
+    ticket.
+
+rate_limit_signaling:
+  headers_observed: []
+  method: probed
+  detail: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header was returned on any observed
+    response. Strapi ships a rate limiter on the auth routes by default but it emits
+    no advisory headers.
+  see: rate-limits/ink-games-rate-limits.yml
+
+caching:
+  method: probed
+  detail: >-
+    The GraphQL endpoint returns `cache-control: no-store` and no ETag, so
+    conditional requests are not supported.
+
+security_headers:
+  method: probed
+  source: 'observed response headers, https://webadm.inkgames.com/graphql, 2026-08-23'
+  observed:
+    strict-transport-security: 'max-age=31536000; includeSubDomains'
+    content-security-policy: present
+    x-content-type-options: nosniff
+    x-frame-options: SAMEORIGIN
+    referrer-policy: no-referrer
+    x-permitted-cross-domain-policies: none
+    access-control-allow-origin: '*'
+    access-control-allow-credentials: 'true'
+  note: >-
+    `x-powered-by: Strapi <strapi.io>` is returned, disclosing the platform.
+
+idempotency:
+  supported: na
+  method: derived
+  detail: >-
+    Not applicable in the RFC-9110 sense for the observable surface: there is no
+    idempotency key, no Idempotency-Key header, and no published guidance. GraphQL
+    mutations exist in the schema (create/update/delete on each content type) but
+    every one of them is denied to anonymous callers, so no write is reachable and no
+    idempotency behaviour is observable. Marked `na` rather than false because the
+    provider ships no public write surface to be idempotent about.
+
+dry_run_mode:
+  supported: na
+  method: derived
+  detail: >-
+    No dry-run, preview, validate-only or simulate parameter exists anywhere in the
+    schema. Not applicable — no public write surface.
+
+reversibility:
+  grade: na
+  method: derived
+  source: graphql/ink-games-cms-schema.graphql
+  detail: >-
+    Not applicable. The only machine-readable contract INK Games publishes is a
+    headless-CMS GraphQL schema on which every resolver — read and write alike — is
+    denied to anonymous callers, so there is no public write surface whose effects
+    could need reversing. For completeness: the schema's write operations are
+    create/update/delete mutations on the seven content types plus the media library
+    and the users-permissions roles/users, and it declares NO reversal operation of
+    any kind — no cancel, refund, void, reverse, undo, rollback or restore field
+    exists in the mutation type, and Strapi's draft/publish `status` argument is a
+    read filter, not an undo. No reversal window is stated anywhere because no
+    reversal path is stated anywhere.
+  write_surfaces:
+    - surface: https://webadm.inkgames.com/graphql
+      public: false
+      reachable_anonymously: false
+      reversal_operation: null
+      reversal_window: null
+      note: All mutations return FORBIDDEN to anonymous callers.
+  no_invented_window: true
+
+cross_links:
+  errors: errors/ink-games-problem-types.yml
+  lifecycle: lifecycle/ink-games-lifecycle.yml
+  authentication: authentication/ink-games-authentication.yml
+  rate_limits: rate-limits/ink-games-rate-limits.yml
+  data_model: data-model/ink-games-data-model.yml

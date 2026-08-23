@@ -1,0 +1,67 @@
+generated: '2026-08-23'
+method: probed
+source: 'search of www.inkgames.com and probes of every INK Games host, 2026-08-23'
+description: >-
+  API lifecycle posture for INK Games. Nothing in this family is published. The
+  entries below record what was searched for and what the probe returned.
+
+versioning:
+  policy_published: false
+  scheme: none
+  evidence: >-
+    The GraphQL endpoint is unversioned (/graphql, no version segment, no version
+    header, no version field in the schema). No versioning policy page exists on
+    www.inkgames.com; the sitemap lists seven pages total (/, /games, /inkpay,
+    /studio, /support, /terms-and-conditions, /privacy) and none of them is developer
+    facing.
+
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  evidence: >-
+    No Sunset or Deprecation response header observed on any host. No deprecation
+    policy page. No @deprecated directive is applied to any field in the 165-type
+    GraphQL schema — zero deprecated fields.
+  deprecated_operations: []
+  pointer_emitted: false
+
+status_page:
+  published: false
+  evidence:
+    - { url: 'https://status.inkgames.com/', status: 000, note: 'does not resolve — no DNS record' }
+    - { url: 'https://webadm.inkgames.com/_health', status: 204, note: 'a bare Strapi liveness probe, not a public status page' }
+  note: >-
+    No Statuspage/Instatus/Better Stack property, and no status link on any page of
+    www.inkgames.com. The 204 on /_health is an infrastructure health check with no
+    body, no incident history and no subscription — it is not a status page and no
+    StatusPage pointer is emitted for it.
+  pointer_emitted: false
+
+sla:
+  published: false
+  evidence: >-
+    No SLA, uptime commitment or support-tier document. /terms-and-conditions covers
+    consumer use of the games and platform, not API availability.
+
+changelog:
+  published: false
+  evidence: >-
+    No changelog, release notes or "what's new" page on www.inkgames.com; not in the
+    sitemap and not linked from any page. The GitHub organization Ink-Games publishes
+    zero public repositories, so there is no commit or release history either.
+
+support:
+  published: true
+  channels:
+    - { type: web, url: 'https://www.inkgames.com/support/', status: 200 }
+    - { type: email, value: 'info@inkgames.com' }
+  note: Consumer support only. No developer support channel, forum or community exists.
+
+maturity:
+  api_program: none
+  assessment: >-
+    INK Games operates no API program. There is no lifecycle to manage because there
+    is no published, supported, versioned API — only an internal CMS contract that is
+    readable by accident of configuration.

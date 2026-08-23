@@ -1,23 +1,130 @@
 aid: ink-games
 name: INK Games
-description: 'INK Games is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  INK Games is an Austin, Texas gaming company building a free-to-earn mobile gaming
+  and social platform under the banner "Play. Win. Earn." Its flagship title is Prize
+  Kingdoms, a mobile kingdom-building game distributed through the Apple App Store and
+  Google Play in which players compete and earn real cash prizes. Two platform
+  services sit behind the games: Ink ID, the single account and passkey-based
+  authentication layer, and InkPay, the payments and earnings system that pays players
+  and influencers ongoing royalties tied to the reach of their personal INK referral
+  code. The team is drawn from EA, Zynga, SciPlay and Buffalo Studios. INK Games
+  operates no public developer program — it publishes no developer portal, API
+  reference, SDK or specification, and its shares trade only on private secondary
+  markets.
+image: https://www.inkgames.com/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/ink-games/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-23'
 modified: '2026-08-23'
 tags:
 - Company
-apis: []
+- Games
+- Gaming
+- Mobile Games
+- Entertainment
+- Consumer
+- Rewards
+- Payments
+- Loyalty
+- Referral
+- GraphQL
+- Content Management
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
+apis:
+- aid: ink-games-web-content-graphql
+  name: INK Games Web Content GraphQL API
+  description: >-
+    The GraphQL contract served by INK Games' Strapi headless CMS, which supplies the
+    content rendered on www.inkgames.com. Schema introspection is enabled and
+    unauthenticated, so the complete type system — 165 types, 29 query fields, 37
+    mutations across the Home, Games, Studio, Support, InkPay, Global, NotFound and
+    StandardPage content types — is publicly readable. Every data resolver, however,
+    returns "Forbidden access" to anonymous callers: the shape of the API is public,
+    the data is not. This is the website's content backend, not a product INK Games
+    offers for third-party integration, and INK Games publishes no documentation for
+    it.
+  humanURL: https://www.inkgames.com/
+  baseURL: https://webadm.inkgames.com/graphql
+  tags:
+  - GraphQL
+  - Content Management
+  - Website
+  properties:
+  - type: GraphQL
+    url: graphql/ink-games-cms-schema.graphql
+  - type: GraphQLIntrospection
+    url: graphql/ink-games-cms-introspection.json
+  - type: Authentication
+    url: authentication/ink-games-authentication.yml
+  - type: DataModel
+    url: data-model/ink-games-data-model.yml
+  - type: ErrorCatalog
+    url: errors/ink-games-problem-types.yml
+  - type: Conventions
+    url: conventions/ink-games-conventions.yml
+  - type: RateLimits
+    url: rate-limits/ink-games-rate-limits.yml
+
 common:
+- type: DomainSecurity
+  url: security/ink-games-domain-security.yml
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://www.inkgames.com/
+- type: Support
+  url: https://www.inkgames.com/support/
+- type: SignUp
+  url: https://dashboard.inkgames.com/sign-up
+- type: Login
+  url: https://dashboard.inkgames.com/login
+- type: TermsOfService
+  url: https://www.inkgames.com/terms-and-conditions/
+- type: PrivacyPolicy
+  url: https://www.inkgames.com/privacy/
+- type: GitHubOrganization
+  url: https://github.com/Ink-Games
+- type: GraphQL
+  url: graphql/ink-games-graphql.yml
+- type: Authentication
+  url: authentication/ink-games-authentication.yml
+- type: DataModel
+  url: data-model/ink-games-data-model.yml
+- type: ErrorCatalog
+  url: errors/ink-games-problem-types.yml
+- type: Conventions
+  url: conventions/ink-games-conventions.yml
+- type: Conformance
+  url: conformance/ink-games-conformance.yml
+- type: Lifecycle
+  url: lifecycle/ink-games-lifecycle.yml
+- type: Plans
+  url: plans/ink-games-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/ink-games-rate-limits.yml
+- type: Packages
+  url: packages/ink-games-packages.yml
+- type: MCPServer
+  url: mcp/ink-games-mcp.yml
+- type: LLMsTxt
+  url: llms/ink-games-llms.txt
+
+x-enrichment:
+  date: '2026-08-23'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: null
+  detail: >-
+    A real first-party machine-readable contract was retrieved: the complete GraphQL
+    schema at https://webadm.inkgames.com/graphql, readable by anonymous introspection.
+    INK Games publishes no developer program around it.
+  checked: '2026-08-23'

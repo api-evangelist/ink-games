@@ -1,0 +1,94 @@
+generated: '2026-08-23'
+method: probed
+source: 'live responses observed from INK Games hosts, 2026-08-23'
+description: >-
+  Error catalog for the INK Games API surface. INK Games publishes no error reference,
+  so every entry below is an envelope observed on a live anonymous request, not a
+  documented contract. Three distinct, mutually incompatible error envelopes are in
+  production across three hosts.
+format: proprietary
+rfc9457: false
+rfc9457_note: >-
+  No surface returns application/problem+json. No type URI, title, detail, status or
+  instance member appears in any envelope.
+
+envelopes:
+  - id: graphql-errors
+    surface: https://webadm.inkgames.com/graphql
+    transport_status: 200
+    content_type: application/json
+    shape: '{"errors":[{"message":..,"path":[..],"extensions":{"code":..,"stacktrace":[..],"error":{..}}}]}'
+    note: GraphQL spec error envelope emitted by @strapi/plugin-graphql. HTTP status stays 200.
+  - id: strapi-rest-error
+    surface: https://webadm.inkgames.com
+    content_type: application/json
+    shape: '{"data":null,"error":{"status":<int>,"name":"<Name>","message":"<Message>","details":{}}}'
+    note: Strapi REST error envelope. Status is mirrored into the body.
+  - id: aws-apigw-error
+    surface: https://ip-api.inkgames.com
+    content_type: application/json
+    shape: '{"message":"<text>"}'
+    note: AWS API Gateway default gateway response.
+
+problem_types:
+  - code: FORBIDDEN
+    envelope: graphql-errors
+    http_status: 200
+    message: Forbidden access
+    meaning: >-
+      The Strapi role attached to the caller (Public, when anonymous) has no
+      permission on the requested content type or action.
+    remediation: >-
+      Authenticate. Obtain a JWT via the `login` mutation, or present a Strapi API
+      token, as `Authorization: Bearer <token>`.
+    observed_on: [games, home, standardPages, usersPermissionsUsers, me, deleteHome]
+    method: probed
+
+  - code: BAD_REQUEST
+    envelope: graphql-errors
+    http_status: 400
+    message: >-
+      This operation has been blocked as a potential Cross-Site Request Forgery (CSRF).
+      Please either specify a 'content-type' header (with a type that is not one of
+      application/x-www-form-urlencoded, multipart/form-data, text/plain) or provide a
+      non-empty value for one of the following headers: X-Requested-With
+    meaning: Koa CSRF guard rejected a POST whose content-type was a simple-request type.
+    remediation: 'Send the header Content-Type: application/json'
+    method: probed
+
+  - code: NotFoundError
+    envelope: strapi-rest-error
+    http_status: 404
+    message: Not Found
+    meaning: No Strapi route matches the path.
+    remediation: Route does not exist; there is no public REST content API on this host.
+    observed_on: ['/api', '/api/games', '/documentation', '/openapi.json', '/.well-known/security.txt']
+    method: probed
+
+  - code: ForbiddenError
+    envelope: strapi-rest-error
+    http_status: 403
+    message: Forbidden
+    meaning: Route exists but the anonymous role may not call it.
+    remediation: Authenticate.
+    observed_on: ['/api/upload/files']
+    method: probed
+
+  - code: MissingAuthenticationToken
+    envelope: aws-apigw-error
+    http_status: 403
+    message: Missing Authentication Token
+    meaning: >-
+      AWS API Gateway returns this for a route that is not deployed on the API, as
+      well as for a genuinely unauthenticated call to a protected route. On this host
+      it was returned for every path probed including the API root, so it indicates
+      route absence rather than an auth challenge.
+    remediation: >-
+      Not actionable from outside — no route inventory is published for this host.
+    method: probed
+
+gaps:
+  - No published error reference or status-code table.
+  - No machine-readable error catalog.
+  - No error `code` vocabulary of INK Games' own; every code observed belongs to Strapi or AWS.
+  - GraphQL errors are returned with HTTP 200, so transport-level error handling alone will miss them.

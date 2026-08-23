@@ -1,0 +1,39 @@
+generated: '2026-08-23'
+method: searched
+source: 'registry searches 2026-08-23 — registry.npmjs.org, pypi.org, github.com/Ink-Games'
+description: >-
+  First-party client libraries published by INK Games. There are none. Every registry
+  below was queried directly and answered; this is a checked absence, not an
+  unchecked one.
+package_count: 0
+packages: []
+registries_searched:
+  - registry: npm
+    endpoint: 'https://registry.npmjs.org/-/v1/search?text=inkgames'
+    result: 0 results
+    exact_names_probed:
+      - { name: inkgames, status: 404, version: null }
+      - { name: '@inkgames/sdk', status: 404, version: null }
+      - { name: inkpay, status: 404, version: null }
+      - { name: ink-games-sdk, status: 404, version: null }
+  - registry: pypi
+    endpoint: 'https://pypi.org/pypi/<pkg>/json'
+    exact_names_probed:
+      - { name: inkgames, status: 404, version: null }
+      - { name: inkpay, status: 404, version: null }
+  - registry: github
+    endpoint: 'https://api.github.com/users/Ink-Games/repos'
+    result: >-
+      Organization Ink-Games exists (created 2020-01-14, name "INK Games", blog
+      www.inkgames.com) but publishes 0 public repositories, so there is no source
+      distribution, tag or release to date.
+sdk_note: >-
+  No official SDK, no community SDK, and no CDN-distributed client build. INK Games'
+  own first-party JavaScript (dashboard.inkgames.com/assets/index-18895c2e.js, a Vue 3
+  application) is bundled application code served from their own origin, not a
+  published, versioned, consumable package — it carries no registry entry and no
+  version identifier, so it is not recorded as a package.
+disambiguation: >-
+  Registry and web searches for "ink" + "games" surface the inkle Studios projects
+  (inkle/ink, inkle/inky, ink-unity-integration, inkjs) and the unrelated INK Content
+  API. NONE of these belong to INK Games of Austin, Texas and none is recorded here.

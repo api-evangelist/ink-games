@@ -1,0 +1,27 @@
+generated: '2026-08-23'
+method: probed
+source: 'probes of every INK Games host, 2026-08-23'
+description: >-
+  MCP posture for INK Games. No MCP server exists — not hosted, not packaged, not
+  announced. No candidate tool list is derived because there is no reachable
+  operation to derive one from.
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+tools: []
+evidence:
+  - { url: 'https://www.inkgames.com/mcp', status: 200, note: 'SPA catch-all shell, not an MCP endpoint' }
+  - { url: 'https://ip-api.inkgames.com/mcp', status: 403, note: 'AWS API Gateway "Missing Authentication Token" — route not deployed' }
+  - { url: 'https://webadm.inkgames.com/mcp', status: 404, note: 'Strapi JSON 404' }
+  - { url: 'https://registry.npmjs.org/-/v1/search?text=inkgames', status: 200, note: '0 packages — no stdio MCP server published' }
+note: >-
+  No remote MCP endpoint and no local-stdio package. The only machine-readable
+  contract INK Games publishes is a GraphQL schema whose every resolver is denied to
+  anonymous callers (see graphql/ink-games-graphql.yml), so even a derived candidate
+  tool list would describe operations no agent could execute. Deliberately left
+  empty rather than populated with unreachable candidates.

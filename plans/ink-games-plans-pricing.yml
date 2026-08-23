@@ -1,0 +1,21 @@
+generated: '2026-08-23'
+method: searched
+source: https://www.inkgames.com/
+description: >-
+  API plans and pricing for INK Games. There are none, and there is no "contact
+  sales" API gate either — INK Games sells no API product at any price.
+plan_count: 0
+plans: []
+pricing_page: null
+free_tier: null
+enterprise_contact_only: false
+evidence:
+  - { url: 'https://www.inkgames.com/sitemap.xml', status: 200, note: 'seven URLs total; no /pricing, /plans, /developers or /api page exists' }
+  - { url: 'https://www.inkgames.com/', status: 200, note: 'homepage nav is Games / Studio / Support / Login / Sign Up — no pricing or developer entry' }
+  - { url: 'https://www.inkgames.com/support/', status: 200, note: 'consumer support; no API plan or quota content' }
+note: >-
+  INK Games' commercial model is consumer-side, not developer-side: free-to-earn
+  mobile titles (flagship Prize Kingdoms) distributed through the Apple App Store and
+  Google Play, with InkPay paying players and referrers out of platform revenue. There
+  is no API tier, quota, overage or key to buy. Recorded as plan_count 0 rather than
+  omitted, so the absence is countable.

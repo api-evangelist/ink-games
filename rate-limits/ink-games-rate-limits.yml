@@ -1,0 +1,25 @@
+generated: '2026-08-23'
+method: probed
+source: 'search of www.inkgames.com + observed response headers, 2026-08-23'
+description: >-
+  Rate limits for the INK Games API surface. None are published and none are
+  signalled at runtime. An honest zero.
+limit_count: 0
+limits: []
+response_headers:
+  observed: []
+  probed_for: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, RateLimit, RateLimit-Policy, Retry-After]
+  note: >-
+    None of these headers was returned on any observed response from
+    webadm.inkgames.com, ip-api.inkgames.com or www.inkgames.com. An agent gets no
+    runtime budget signal whatsoever.
+exhaustion_status_code: undocumented
+documented: false
+evidence:
+  - { url: 'https://webadm.inkgames.com/graphql', status: 200, note: 'response headers contain no rate-limit family header' }
+  - { url: 'https://www.inkgames.com/support/', status: 200, note: 'consumer support page; no developer or rate-limit content' }
+note: >-
+  INK Games publishes no developer documentation, so there is no rate-limit reference
+  to read. Strapi applies a default rate limiter to the users-permissions auth routes,
+  but its thresholds are server configuration, are not published by INK Games, and
+  emit no advisory headers — so nothing about them is assertable from outside.
