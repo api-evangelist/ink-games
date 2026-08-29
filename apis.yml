@@ -12,6 +12,17 @@ description: >-
   operates no public developer program — it publishes no developer portal, API
   reference, SDK or specification, and its shares trade only on private secondary
   markets.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.inkgames.com/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/ink-games/refs/heads/main/apis.yml
 x-type: company
