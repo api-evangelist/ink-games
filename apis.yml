@@ -51,6 +51,19 @@ tags:
 - Rewards
 - Payments
 - Loyalty
+- Referrals
+- GraphQL
+- Content Management
+tags_raw:
+- Company
+- Games
+- Gaming
+- Mobile Games
+- Entertainment
+- Consumer
+- Rewards
+- Payments
+- Loyalty
 - Referral
 - GraphQL
 - Content Management
@@ -72,6 +85,10 @@ apis:
   humanURL: https://www.inkgames.com/
   baseURL: https://webadm.inkgames.com/graphql
   tags:
+  - GraphQL
+  - Content Management
+  - Websites
+  tags_raw:
   - GraphQL
   - Content Management
   - Website
