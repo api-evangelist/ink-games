@@ -64,35 +64,108 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-INK Games is an Austin, Texas gaming company building a free-to-earn mobile gaming and
-social platform under the banner "Play. Win. Earn." Its flagship title is **Prize
-Kingdoms**, a mobile kingdom-building game on the Apple App Store and Google Play in
-which players compete and earn real cash prizes. Two platform services sit behind the
-games: **Ink ID**, the account and passkey authentication layer, and **InkPay**, which
-pays players and influencers ongoing royalties tied to the reach of their personal INK
-referral code. The team is drawn from EA, Zynga, SciPlay and Buffalo Studios. Shares
-trade only on private secondary markets.
+INK Games is an Austin, Texas gaming company building a free-to-earn mobile gaming and social platform under the banner "Play. Win. Earn." Its flagship title is Prize Kingdoms, a mobile kingdom-building game distributed through the Apple App Store and Google Play in which players compete and earn real cash prizes. Two platform services sit behind the games: Ink ID, the single account and passkey-based authentication layer, and InkPay, the payments and earnings system that pays players and influencers ongoing royalties tied to the reach of their personal INK referral code. The team is drawn from EA, Zynga, SciPlay and Buffalo Studios. INK Games operates no public developer program — it publishes no developer portal, API reference, SDK or specification, and its shares trade only on private secondary markets.
 
-## API surface
+**Areas:** Company · Games · Gaming · Mobile Games · Entertainment · Consumer · Rewards · Payments · Loyalty · Referrals · GraphQL · Content Management
 
-**INK Games operates no public developer program.** There is no developer portal, API
-reference, documentation, SDK, API key programme or pricing for developers. Probed
-2026-08-23: no OpenAPI or Swagger document on any host, no AsyncAPI, no MCP endpoint,
-no A2A agent card, no `llms.txt`, and no `/.well-known/` document of any kind
-(17 paths across 4 hosts, zero hits).
+## INK Games on APIs.io
 
-One machine-readable contract does exist. `https://webadm.inkgames.com/graphql` is the
-Strapi headless CMS that supplies the content on www.inkgames.com, and **GraphQL
-introspection is enabled and unauthenticated** — the full schema (165 types, 29 query
-fields, 37 mutations) is saved in [`graphql/`](graphql/). Every data resolver, however,
-returns `Forbidden access` to anonymous callers. The shape of the API is public; the
-data is not. It is the website's content backend, not a product offered for
-third-party integration.
+Everything profiled for INK Games is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ink-games/](https://apis.io/providers/ink-games/)** — or go straight to one of the APIs or properties below.
 
-- Website: https://www.inkgames.com/
-- Support: https://www.inkgames.com/support/
-- Player dashboard: https://dashboard.inkgames.com/
-- GitHub: https://github.com/Ink-Games (0 public repositories)
+### APIs (1)
 
-_Not to be confused with **inkle Studios** and its `ink` narrative scripting language,
-with **INK Content** (`inkforall.com`), or with **INK Games Publishing**._
+- [INK Games Web Content GraphQL API](https://apis.io/apis/ink-games/ink-games-web-content-graphql/) — The GraphQL contract served by INK Games' Strapi headless CMS, which supplies the content rendered on www.inkgames.com. Schema introspection is enabled and…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [ink-games-mcp.yml](https://apis.io/servers/ink-games/ink-games-mcp-yml/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Ink Games Authentication](https://apis.io/security/ink-games/ink-games-authentication/)
+- [Ink Games Domain Security](https://apis.io/security/ink-games/ink-games-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Ink Games Plans Pricing](https://apis.io/plans/ink-games/ink-games-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Ink Games Rate Limits](https://apis.io/rate-limits/ink-games/ink-games-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.inkgames.com/)
+- [Sign up](https://dashboard.inkgames.com/sign-up)
+- [Support](https://www.inkgames.com/support/)
+- [Blog](https://www.inkgames.com/blog/)
+- [Terms of service](https://www.inkgames.com/terms-and-conditions/)
+- [Privacy policy](https://www.inkgames.com/privacy/)
+- [GitHub](https://github.com/Ink-Games)
+
+## API Evangelist rating
+
+**Kin Score 19.8** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 35.1 |
+| Contract governance | 4.5 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 14.3 |
+| Access clarity | 6.6 |
+
+**Agent readiness 20.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.2** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ink-games/](https://apis.io/providers/ink-games/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for INK Games: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ink-games/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
